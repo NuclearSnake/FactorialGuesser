@@ -45,6 +45,9 @@ public class FactorialGuesserWithAMap implements FactorialGuesser {
     }
 
     private long tryToGetRightFactorial(long factorialOfN){
+        if(previousResults.containsKey(factorialOfN))
+            return factorialOfN;
+
         long maxSavedFactorialLessOrEqualToRequired = -1;
         for(Long key : previousResults.keySet()){
             if(key < factorialOfN && key > maxSavedFactorialLessOrEqualToRequired) {
