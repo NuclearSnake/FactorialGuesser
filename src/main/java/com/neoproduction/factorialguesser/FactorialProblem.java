@@ -1,5 +1,7 @@
 package com.neoproduction.factorialguesser;
 
+import java.math.BigInteger;
+
 /**
  * Created by NuclearSnake 14.12.18 at 22:03
  *
@@ -13,7 +15,7 @@ public class FactorialProblem {
     private InputManager inputManager;
     private FactorialGuesser factorialGuesser;
 
-    private int factorialOfN = ERROR;
+    private BigInteger factorialOfN = null;
 
     public FactorialProblem(InputManager inputManager, FactorialGuesser factorialGuesser) {
         this.inputManager = inputManager;
@@ -23,7 +25,7 @@ public class FactorialProblem {
     /**
      * @return factorial of N parsed from the latest user input
      */
-    public int getFactorialOfN() {
+    public BigInteger getFactorialOfN() {
         return factorialOfN;
     }
 
@@ -33,7 +35,7 @@ public class FactorialProblem {
      */
     public int loop(){
         String input;
-        factorialOfN = ERROR;
+        factorialOfN = null;
 
         input = inputManager.getInput("Factorial of N: ");
         if("q".equals(input)) {
@@ -42,7 +44,7 @@ public class FactorialProblem {
         }
 
         factorialOfN = tryToParseInput(input);
-        if(factorialOfN == ERROR)
+        if(factorialOfN == null)
             return ERROR;
 
         if(!isValidNumber(factorialOfN)) {
@@ -58,12 +60,12 @@ public class FactorialProblem {
      * @param input from user
      * @return integer or {@link FactorialProblem#ERROR}
      */
-    protected int tryToParseInput(String input){
+    protected BigInteger tryToParseInput(String input){
         try{
-            return Integer.parseInt(input);
+            return new BigInteger(input);
         } catch(NumberFormatException nfe){
             System.out.println("Error! Input is not a number.");
-            return ERROR;
+            return null;
         }
     }
 
@@ -72,7 +74,7 @@ public class FactorialProblem {
      * @param input from user
      * @return true if the input is valid, false otherwise
      */
-    protected boolean isValidNumber(int input){
-        return input > 0;
+    protected boolean isValidNumber(BigInteger input){
+        return input != null && input.compareTo(BigInteger.ZERO) > 0;
     }
 }

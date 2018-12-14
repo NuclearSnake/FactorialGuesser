@@ -1,5 +1,7 @@
 package com.neoproduction.factorialguesser;
 
+import java.math.BigInteger;
+
 /**
  * Created by NuclearSnake 14.12.18 at 22:07
  *
@@ -7,15 +9,16 @@ package com.neoproduction.factorialguesser;
  */
 public class FactorialGuesserBruteForce implements FactorialGuesser {
     @Override
-    public int getNFromFactorial(long factorialOfN) {
-        if(factorialOfN == 1)
+    public int getNFromFactorial(BigInteger factorialOfN) {
+        if(factorialOfN.compareTo(BigInteger.ONE) == 0)
             return 1;
 
-        long factorial = 1;
+        BigInteger factorial = BigInteger.ONE;
         int n = 1;
-        while(factorial < factorialOfN){
-            factorial *= n++;
-            if(factorial == factorialOfN)
+        while(factorial.compareTo(factorialOfN) < 0){
+            factorial = factorial.multiply(BigInteger.valueOf(n++));
+
+            if(factorial.compareTo(factorialOfN) == 0)
                 return n-1;
         }
 

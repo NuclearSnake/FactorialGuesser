@@ -2,6 +2,8 @@ package com.neoproduction.factorialguesser;
 
 import org.junit.Test;
 
+import java.math.BigInteger;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -9,40 +11,41 @@ import static org.junit.Assert.assertTrue;
 public class FactorialProblemTest {
     @Test
     public void tryToParseInput_Text() {
-        assertEquals(FactorialProblem.ERROR, new FactorialProblem(null, null).tryToParseInput("text"));
+        assertEquals(null, new FactorialProblem(null, null).tryToParseInput("text"));
     }
 
     @Test
     public void tryToParseInput_Negative() {
-        assertEquals(-1, new FactorialProblem(null, null).tryToParseInput("-1"));
+        assertTrue(BigInteger.valueOf(-1).compareTo(new FactorialProblem(null, null).tryToParseInput("-1")) == 0);
     }
 
     @Test
     public void tryToParseInput_Positive() {
-        assertEquals(42, new FactorialProblem(null, null).tryToParseInput("42"));
+        assertTrue(BigInteger.valueOf(42).compareTo(new FactorialProblem(null, null).tryToParseInput("42")) == 0);
     }
-
 
     @Test
     public void isValidNumber_Negative() {
-        assertFalse(new FactorialProblem(null, null).isValidNumber(-1));
+        assertFalse(new FactorialProblem(null, null).isValidNumber(BigInteger.valueOf(-1)));
     }
+
     @Test
     public void isValidNumber_Zero() {
-        assertFalse(new FactorialProblem(null, null).isValidNumber(0));
+        assertFalse(new FactorialProblem(null, null).isValidNumber(BigInteger.valueOf(0)));
     }
+
     @Test
     public void isValidNumber_Positive() {
-        assertTrue(new FactorialProblem(null, null).isValidNumber(1));
+        assertTrue(new FactorialProblem(null, null).isValidNumber(BigInteger.valueOf(1)));
     }
 
     @Test
     public void loop_ValidDataGivesSameResultAsMatchesProblem() {
-        assertTrue(doesFactorialProblemResultEqualsFactorialGuesserResult(7));
-        assertTrue(doesFactorialProblemResultEqualsFactorialGuesserResult(1));
-        assertTrue(doesFactorialProblemResultEqualsFactorialGuesserResult(2));
-        assertTrue(doesFactorialProblemResultEqualsFactorialGuesserResult(5040));
-        assertTrue(doesFactorialProblemResultEqualsFactorialGuesserResult(479001600L));
+        assertTrue(doesFactorialProblemResultEqualsFactorialGuesserResult(BigInteger.valueOf(7)));
+        assertTrue(doesFactorialProblemResultEqualsFactorialGuesserResult(BigInteger.valueOf(1)));
+        assertTrue(doesFactorialProblemResultEqualsFactorialGuesserResult(BigInteger.valueOf(2)));
+        assertTrue(doesFactorialProblemResultEqualsFactorialGuesserResult(BigInteger.valueOf(5040)));
+        assertTrue(doesFactorialProblemResultEqualsFactorialGuesserResult(BigInteger.valueOf(479001600L)));
     }
 
     @Test
@@ -50,8 +53,8 @@ public class FactorialProblemTest {
         assertEquals(FactorialProblem.ERROR, getMatchesProblemLoopResult("-1"));
     }
 
-    private boolean doesFactorialProblemResultEqualsFactorialGuesserResult(long factorialOfN){
-        int matchesProblemResult = getMatchesProblemLoopResult(Long.toString(factorialOfN));
+    private boolean doesFactorialProblemResultEqualsFactorialGuesserResult(BigInteger factorialOfN){
+        int matchesProblemResult = getMatchesProblemLoopResult(factorialOfN.toString());
         int matchesCounterResult = new FactorialGuesserBruteForce().getNFromFactorial(factorialOfN);
 
         return matchesProblemResult == matchesCounterResult;

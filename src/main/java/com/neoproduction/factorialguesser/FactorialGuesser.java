@@ -1,5 +1,7 @@
 package com.neoproduction.factorialguesser;
 
+import java.math.BigInteger;
+
 /**
  * Created by NuclearSnake 14.12.18 at 22:21
  *
@@ -8,5 +10,5 @@ package com.neoproduction.factorialguesser;
 public interface FactorialGuesser {
     int BAD_FACTORIAL = Integer.MIN_VALUE+1;
 
-    int getNFromFactorial(long factorialOfN);
+    int getNFromFactorial(BigInteger factorialOfN);
 }

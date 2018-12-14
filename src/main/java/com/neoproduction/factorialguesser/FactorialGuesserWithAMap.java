@@ -1,5 +1,6 @@
 package com.neoproduction.factorialguesser;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 
 /**
@@ -11,32 +12,32 @@ import java.util.HashMap;
  *
  */
 public class FactorialGuesserWithAMap implements FactorialGuesser {
-    private HashMap<Long, Integer> previousResults = new HashMap<>();
+    private HashMap<BigInteger, Integer> previousResults = new HashMap<>();
 
     @Override
-    public int getNFromFactorial(long factorialOfN) {
-        if(factorialOfN == 1)
+    public int getNFromFactorial(BigInteger factorialOfN) {
+        if(factorialOfN.compareTo(BigInteger.ONE) == 0)
             return 1;
 
-        long factorial = 1;
+        BigInteger factorial = null;
         int n = 1;
 
         // if n > 6
-        if(factorialOfN > 720){
+        if(factorialOfN.compareTo(BigInteger.valueOf(720)) > 0){
             factorial = tryToGetRightFactorial(factorialOfN);
-            if(factorial != -1) {
+            if(factorial != null) {
                 n = previousResults.get(factorial);
                 if (factorial == factorialOfN)
                     return n;
-            } else {
-                factorial = 1;
             }
         }
 
-        while(factorial < factorialOfN){
-            factorial *= n;
+        factorial = BigInteger.ONE;
+
+        while(factorial.compareTo(factorialOfN) < 0){
+            factorial = factorial.multiply(BigInteger.valueOf(n));
             previousResults.put(factorial, n);
-            if(factorial == factorialOfN)
+            if(factorial.compareTo(factorialOfN) == 0)
                 return n;
             n++;
         }
@@ -44,13 +45,13 @@ public class FactorialGuesserWithAMap implements FactorialGuesser {
         return BAD_FACTORIAL;
     }
 
-    private long tryToGetRightFactorial(long factorialOfN){
+    private BigInteger tryToGetRightFactorial(BigInteger factorialOfN){
         if(previousResults.containsKey(factorialOfN))
             return factorialOfN;
 
-        long maxSavedFactorialLessOrEqualToRequired = -1;
-        for(Long key : previousResults.keySet()){
-            if(key < factorialOfN && key > maxSavedFactorialLessOrEqualToRequired) {
+        BigInteger maxSavedFactorialLessOrEqualToRequired = null;
+        for(BigInteger key : previousResults.keySet()){
+            if(key.compareTo(factorialOfN) < 0 && (maxSavedFactorialLessOrEqualToRequired == null || key.compareTo(maxSavedFactorialLessOrEqualToRequired) > 0)) {
                 maxSavedFactorialLessOrEqualToRequired = key;
             }
         }

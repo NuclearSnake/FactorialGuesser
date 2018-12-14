@@ -1,5 +1,7 @@
 package com.neoproduction.factorialguesser;
 
+import java.math.BigInteger;
+
 /**
  * Created by NuclearSnake 14.12.18 at 22:20
  *
@@ -7,17 +9,19 @@ package com.neoproduction.factorialguesser;
  */
 public class FactorialGuesserSimpleReverse implements FactorialGuesser {
     @Override
-    public int getNFromFactorial(long factorialOfN) {
-        if(factorialOfN == 1)
+    public int getNFromFactorial(BigInteger factorialOfN) {
+        if(factorialOfN.compareTo(BigInteger.ONE) == 0)
             return 1;
 
         int n = 1;
-        while(factorialOfN > 0){
-            if(factorialOfN % n == 0)
-                factorialOfN /= n++;
+        while(factorialOfN.compareTo(BigInteger.ZERO) > 0){
+            // factorial % n == 0
+            if(factorialOfN.mod(BigInteger.valueOf(n)).compareTo(BigInteger.ZERO) == 0)
+                // factorial /= n++
+                factorialOfN = factorialOfN.divide(BigInteger.valueOf(n++));
             else
                 return BAD_FACTORIAL;
-            if(factorialOfN == 1)
+            if(factorialOfN.compareTo(BigInteger.ONE) == 0)
                 return n-1;
         }
 
