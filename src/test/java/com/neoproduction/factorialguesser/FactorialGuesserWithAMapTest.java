@@ -46,14 +46,16 @@ public class FactorialGuesserWithAMapTest {
     @Test
     public void getNFromFactorial_testMapEfficiency() {
         FactorialGuesser factorialGuesser = new FactorialGuesserWithAMap();
-        long start = System.currentTimeMillis();
-        factorialGuesser.getNFromFactorial(5040);
-        long end = System.currentTimeMillis();
-        long diff1 = start-end;
-        start = System.currentTimeMillis();
+        long start = System.nanoTime();
+//        factorialGuesser.getNFromFactorial(5040);
         factorialGuesser.getNFromFactorial(479001600L);
-        end = System.currentTimeMillis();
-        long diff2 = start-end;
-        System.out.println(String.format("Time 1 = %dms, time 2 = %dms, 2 time was faster by %dms", diff1, diff2, (diff1-diff2)));
+        long end = System.nanoTime();
+        long time1 = end-start;
+        start = System.nanoTime();
+        factorialGuesser.getNFromFactorial(479001600L);
+        end = System.nanoTime();
+        long time2 = end-start;
+        System.out.println(String.format("Time 1 = %dns, time 2 = %dns, 2 time was faster by %dns", time1, time2, (time1-time2)));
+        assertTrue(time2 < time1);
     }
 }
