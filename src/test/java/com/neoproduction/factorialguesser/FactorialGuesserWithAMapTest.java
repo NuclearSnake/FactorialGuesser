@@ -51,7 +51,7 @@ public class FactorialGuesserWithAMapTest {
         long start = System.nanoTime();
 //        factorialGuesser.getNFromFactorial(5040);
         BigInteger bigInteger = BigInteger.ONE;
-        for(int i = 1; i < 120; i++){
+        for(int i = 1; i < 50000; i++){
             bigInteger = bigInteger.multiply(BigInteger.valueOf(i));
         }
         factorialGuesser.getNFromFactorial(bigInteger);
